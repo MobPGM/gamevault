@@ -123,7 +123,6 @@
 
         .btn-primary:hover {
             background: #6a5de0;
-            transform: translateY(-1px);
         }
 
         .btn-primary:disabled {
@@ -145,13 +144,12 @@
             overflow: hidden;
             cursor: pointer;
             border: 1px solid rgba(255,255,255,0.05);
-            transition: transform 0.2s, border-color 0.2s;
+            transition: border-color 0.2s;
             position: relative;
             background: #12121e;
         }
 
         .result-card:hover {
-            transform: translateY(-4px);
             border-color: #7c6ff7;
         }
 
@@ -252,13 +250,12 @@
             overflow: hidden;
             border: 1px solid rgba(255,255,255,0.05);
             background: #12121e;
-            transition: transform 0.2s, box-shadow 0.2s;
             position: relative;
             cursor: pointer;
+            will-change: transform;
         }
 
         .game-card:hover {
-            transform: translateY(-6px);
             box-shadow: 0 20px 40px rgba(0,0,0,0.4);
         }
 
@@ -362,6 +359,106 @@
             color: white;
         }
 
+        /* ── Hero / scrolling banner ── */
+        .hero-section {
+            position: relative;
+            height: 320px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #080810;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .banner-strip {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+            -webkit-mask-image: linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%);
+            mask-image: linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%);
+        }
+
+        .banner-track {
+            display: flex;
+            gap: 8px;
+            height: 100%;
+            align-items: stretch;
+            width: max-content;
+            animation: bannerScroll 55s linear infinite;
+        }
+
+        .banner-track:hover {
+            animation-play-state: paused;
+        }
+
+        @keyframes bannerScroll {
+            from { transform: translateX(0); }
+            to   { transform: translateX(-50%); }
+        }
+
+        .banner-cover {
+            width: 120px;
+            height: 100%;
+            object-fit: cover;
+            flex-shrink: 0;
+            opacity: 0.35;
+            transition: opacity 0.25s;
+        }
+
+        .banner-cover:hover { opacity: 0.65; }
+
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom,
+                rgba(8,8,16,0.55) 0%,
+                rgba(8,8,16,0.4)  50%,
+                rgba(8,8,16,0.65) 100%);
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            width: 100%;
+            max-width: 620px;
+            padding: 0 24px;
+        }
+
+        .hero-content .search-title {
+            color: rgba(255,255,255,0.55);
+            text-shadow: 0 1px 8px rgba(0,0,0,0.8);
+            margin-bottom: 16px;
+        }
+
+        .hero-content .search-bar {
+            max-width: 100%;
+            filter: drop-shadow(0 4px 20px rgba(0,0,0,0.6));
+        }
+
+
+        .platform-badge {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            background: rgba(0,0,0,0.72);
+            color: #ccc;
+            font-size: 9px;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 6px;
+            letter-spacing: 0.6px;
+            text-transform: uppercase;
+            backdrop-filter: blur(6px);
+            border: 1px solid rgba(255,255,255,0.1);
+            max-width: 90px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
         .empty-state {
             grid-column: 1 / -1;
             text-align: center;
@@ -391,9 +488,6 @@
             backdrop-filter: blur(4px);
         }
 
-        .modal-overlay.active {
-            display: flex;
-        }
 
         .modal {
             background: #12121e;
@@ -497,57 +591,47 @@
 
         .btn-add:hover { background: #6a5de0; }
 
-        /* ── Stats cards ── */
+        /* ── Stats row ── */
         .stats-row {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 14px;
-            margin-bottom: 24px;
-        }
-
-        .stat-card {
-            background: #12121e;
-            border: 1px solid rgba(255,255,255,0.06);
-            border-radius: 14px;
-            padding: 20px 22px;
             display: flex;
-            flex-direction: column;
-            gap: 6px;
-            position: relative;
-            overflow: hidden;
+            align-items: flex-start;
+            margin-bottom: 32px;
+            padding: 28px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
         }
 
-        .stat-card::before {
-            content: '';
-            position: absolute;
-            left: 0; top: 0; bottom: 0;
-            width: 3px;
-            border-radius: 14px 0 0 14px;
+        .stat-block {
+            flex: 1;
+            padding: 0 36px;
         }
 
-        .stat-card.purple::before { background: #7c6ff7; }
-        .stat-card.green::before  { background: #34d399; }
-        .stat-card.blue::before   { background: #60a5fa; }
+        .stat-block:first-child { padding-left: 0; }
+        .stat-block:last-child  { padding-right: 0; }
 
-        .sc-value {
-            font-size: 26px;
-            font-weight: 800;
-            color: white;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+        .stat-divider {
+            width: 1px;
+            background: rgba(255,255,255,0.06);
+            align-self: stretch;
         }
-
-        .stat-card.purple .sc-value { color: #9d94f7; }
-        .stat-card.green .sc-value  { color: #34d399; }
-        .stat-card.blue .sc-value   { color: #60a5fa; }
 
         .sc-label {
             font-size: 10px;
             font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: #444;
+            letter-spacing: 2px;
+            color: #3a3a4a;
+            margin-bottom: 10px;
+        }
+
+        .sc-value {
+            font-size: 52px;
+            font-weight: 800;
+            color: #ffffff;
+            line-height: 1;
+            letter-spacing: -2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         /* ── Library controls ── */
@@ -601,9 +685,6 @@
             backdrop-filter: blur(4px);
         }
 
-        .detail-overlay.active {
-            display: flex;
-        }
 
         .detail-modal {
             background: #12121e;
@@ -775,18 +856,29 @@
             <div class="number" id="playingCount">0</div>
             <div class="label">Playing</div>
         </div>
+        <div class="stat">
+            <div class="number" id="backlogCount">0</div>
+            <div class="label">Backlog</div>
+        </div>
     </div>
 </header>
 
-<div class="container">
-    <div class="search-section">
+<div class="hero-section">
+    <div class="banner-strip" id="bannerStrip">
+        <div class="banner-track" id="bannerTrack"></div>
+    </div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
         <p class="search-title">Add a Game</p>
         <div class="search-bar">
-            <input type="text" id="searchInput" placeholder="Search any game..." onkeydown="if(event.key==='Enter') searchGames()">
+            <input type="text" id="searchInput" placeholder="Search any game…" onkeydown="if(event.key==='Enter') searchGames()">
             <button class="btn-primary" onclick="searchGames()">Search</button>
         </div>
-        <div class="search-results" id="searchResults"></div>
     </div>
+</div>
+
+<div class="container">
+    <div class="search-results" id="searchResults" style="margin-bottom: 40px;"></div>
 
     <div>
         <div class="section-header">
@@ -798,22 +890,27 @@
             </div>
         </div>
         <div class="stats-row">
-            <div class="stat-card purple">
-                <div class="sc-value" id="statAvgRating">—</div>
+            <div class="stat-block">
                 <div class="sc-label">Avg Rating</div>
+                <div class="sc-value" id="statAvgRating">—</div>
             </div>
-            <div class="stat-card green">
+            <div class="stat-divider"></div>
+            <div class="stat-block">
+                <div class="sc-label">Completion</div>
                 <div class="sc-value" id="statCompletion">—</div>
-                <div class="sc-label">Completion Rate</div>
             </div>
-            <div class="stat-card blue">
-                <div class="sc-value" id="statTopGenre">—</div>
+            <div class="stat-divider"></div>
+            <div class="stat-block">
                 <div class="sc-label">Top Genre</div>
+                <div class="sc-value" id="statTopGenre">—</div>
             </div>
         </div>
 
         <div class="library-controls">
             <input type="text" class="library-search" id="librarySearch" placeholder="Search your library…" oninput="renderLibrary()">
+            <select class="sort-select" id="platformFilter" onchange="renderLibrary()">
+                <option value="all">All Platforms</option>
+            </select>
             <select class="sort-select" id="sortSelect" onchange="renderLibrary()">
                 <option value="rating">Sort: Rating</option>
                 <option value="name">Sort: Name A–Z</option>
@@ -822,6 +919,14 @@
             </select>
         </div>
         <div class="library-grid" id="libraryGrid"></div>
+    </div>
+
+    <div id="backlogSection" style="margin-top: 60px; display: none;">
+        <div class="section-header">
+            <h2 class="section-title">Want to Play</h2>
+            <span id="backlogHeaderCount" style="font-size:13px;color:#444;font-weight:500"></span>
+        </div>
+        <div class="library-grid" id="backlogGrid"></div>
     </div>
 </div>
 
@@ -837,9 +942,19 @@
                 <option value="PC">PC</option>
                 <option value="PS5">PS5</option>
                 <option value="PS4">PS4</option>
+                <option value="PS3">PS3</option>
                 <option value="Xbox Series X/S">Xbox Series X/S</option>
                 <option value="Xbox One">Xbox One</option>
+                <option value="Xbox 360">Xbox 360</option>
                 <option value="Nintendo Switch">Nintendo Switch</option>
+                <option value="Wii">Wii</option>
+                <option value="Wii U">Wii U</option>
+                <option value="Nintendo DS">Nintendo DS</option>
+                <option value="Nintendo 3DS">Nintendo 3DS</option>
+                <option value="Game Boy">Game Boy</option>
+                <option value="Game Boy Advance">Game Boy Advance</option>
+                <option value="PSP">PSP</option>
+                <option value="PS Vita">PS Vita</option>
                 <option value="Mobile">Mobile</option>
                 <option value="Other">Other</option>
             </select>
@@ -847,6 +962,7 @@
             <select id="modalStatus">
                 <option value="playing">Playing</option>
                 <option value="completed">Completed</option>
+                <option value="backlog">Want to Play</option>
             </select>
             <label>Your Score</label>
             <input type="number" id="modalRating" min="1" max="10" value="8" placeholder="1-10">
@@ -873,6 +989,7 @@
                     <select id="detailStatus">
                         <option value="playing">Playing</option>
                         <option value="completed">Completed</option>
+                        <option value="backlog">Want to Play</option>
                     </select>
                 </div>
                 <div class="detail-field">
@@ -882,9 +999,19 @@
                         <option value="PC">PC</option>
                         <option value="PS5">PS5</option>
                         <option value="PS4">PS4</option>
+                        <option value="PS3">PS3</option>
                         <option value="Xbox Series X/S">Xbox Series X/S</option>
                         <option value="Xbox One">Xbox One</option>
+                        <option value="Xbox 360">Xbox 360</option>
                         <option value="Nintendo Switch">Nintendo Switch</option>
+                        <option value="Wii">Wii</option>
+                        <option value="Wii U">Wii U</option>
+                        <option value="Nintendo DS">Nintendo DS</option>
+                        <option value="Nintendo 3DS">Nintendo 3DS</option>
+                        <option value="Game Boy">Game Boy</option>
+                        <option value="Game Boy Advance">Game Boy Advance</option>
+                        <option value="PSP">PSP</option>
+                        <option value="PS Vita">PS Vita</option>
                         <option value="Mobile">Mobile</option>
                         <option value="Other">Other</option>
                     </select>
@@ -902,19 +1029,83 @@
     </div>
 </div>
 
-<script>
+<script type="module">
+    import { animate, stagger } from "https://cdn.jsdelivr.net/npm/motion@latest/+esm";
+
+    // ─── State ────────────────────────────────────────────────────
     let selectedGame = null;
     let selectedLibraryGame = null;
     let allGames = [];
     let currentFilter = 'all';
 
-    async function searchGames() {
+    const PLATFORM_ABBR = {
+        'Nintendo Switch':  'Switch',
+        'Nintendo DS':      'NDS',
+        'Nintendo 3DS':     '3DS',
+        'Game Boy Advance': 'GBA',
+        'Game Boy':         'GB',
+        'Xbox Series X/S':  'Xbox X/S',
+        'Xbox One':         'Xbox One',
+        'Xbox 360':         'Xbox 360',
+        'PS Vita':          'Vita',
+    };
+    function platformAbbr(p) { return PLATFORM_ABBR[p] || p; }
+
+    // ─── Animation helpers ─────────────────────────────────────────
+    function animateNumber(el, target, { suffix = '', decimals = 0 } = {}) {
+        const raw = el.textContent.replace(/[^0-9.]/g, '');
+        const start = parseFloat(raw) || 0;
+        animate(start, target, {
+            duration: 0.7,
+            ease: [0.16, 1, 0.3, 1],
+            onUpdate: v => {
+                el.textContent = decimals > 0
+                    ? v.toFixed(decimals) + suffix
+                    : Math.round(v) + suffix;
+            }
+        });
+    }
+
+    function addCardHover(card) {
+        card.addEventListener('mouseenter', () => {
+            animate(card, { y: -8, scale: 1.02 }, { type: 'spring', stiffness: 280, damping: 18 });
+        });
+        card.addEventListener('mouseleave', () => {
+            animate(card, { y: 0, scale: 1 }, { type: 'spring', stiffness: 300, damping: 26 });
+        });
+    }
+
+    // ─── Overlay open / close with spring ─────────────────────────
+    function openOverlay(overlay, panel) {
+        overlay.style.display = 'flex';
+        animate(overlay, { opacity: [0, 1] }, { duration: 0.22 });
+        animate(panel, { opacity: [0, 1], scale: [0.94, 1], y: [16, 0] }, {
+            type: 'spring', stiffness: 360, damping: 30
+        });
+    }
+
+    async function closeOverlay(overlay, panel, cleanup) {
+        await Promise.all([
+            animate(overlay, { opacity: [1, 0] }, { duration: 0.18 }),
+            animate(panel, { opacity: [1, 0], scale: [1, 0.96], y: [0, 8] }, { duration: 0.16 })
+        ]);
+        overlay.style.display = 'none';
+        cleanup?.();
+    }
+
+    // ─── Search ────────────────────────────────────────────────────
+    window.searchGames = async function() {
         const q = document.getElementById("searchInput").value.trim();
         if (!q) return;
+
+        const btn = document.querySelector('.hero-content .btn-primary');
+        animate(btn, { scale: [1, 0.93, 1] }, { duration: 0.28, ease: 'easeOut' });
+
         const res = await fetch(`/search?q=${encodeURIComponent(q)}`);
         const games = await res.json();
         const container = document.getElementById("searchResults");
         container.innerHTML = "";
+        const cards = [];
         games.forEach(game => {
             const card = document.createElement("div");
             card.className = "result-card";
@@ -928,23 +1119,33 @@
             `;
             card.onclick = () => openModal(game);
             container.appendChild(card);
+            cards.push(card);
         });
-    }
+        if (cards.length) {
+            animate(cards, { opacity: [0, 1], y: [18, 0] }, {
+                delay: stagger(0.055),
+                type: 'spring', stiffness: 280, damping: 24
+            });
+        }
+    };
 
+    // ─── Add modal ─────────────────────────────────────────────────
     function openModal(game) {
         selectedGame = game;
         document.getElementById("modalCover").src = game.cover || "";
         document.getElementById("modalTitle").textContent = game.name;
-        document.getElementById("modalMeta").textContent = `${game.year}${game.genre ? ' · ' + game.genre.split(',')[0] : ''}`;
-        document.getElementById("modalOverlay").classList.add("active");
+        document.getElementById("modalMeta").textContent =
+            `${game.year}${game.genre ? ' · ' + game.genre.split(',')[0] : ''}`;
+        const overlay = document.getElementById("modalOverlay");
+        openOverlay(overlay, overlay.querySelector('.modal'));
     }
 
-    function closeModal() {
-        document.getElementById("modalOverlay").classList.remove("active");
-        selectedGame = null;
-    }
+    window.closeModal = async function() {
+        const overlay = document.getElementById("modalOverlay");
+        await closeOverlay(overlay, overlay.querySelector('.modal'), () => { selectedGame = null; });
+    };
 
-    async function addGame() {
+    window.addGame = async function() {
         if (!selectedGame) return;
         const payload = {
             ...selectedGame,
@@ -952,54 +1153,75 @@
             status: document.getElementById("modalStatus").value,
             platform: document.getElementById("modalPlatform").value
         };
+        const btn = document.querySelector('#modalOverlay .btn-add');
+        if (btn) await animate(btn, { scale: [1, 0.93, 1] }, { duration: 0.22 });
         await fetch("/add", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(payload)
         });
-        closeModal();
+        await window.closeModal();
         document.getElementById("searchResults").innerHTML = "";
         document.getElementById("searchInput").value = "";
         loadLibrary();
-    }
+    };
 
-    async function deleteGame(id, e) {
+    // ─── Delete ────────────────────────────────────────────────────
+    window.deleteGame = async function(id, e) {
         e.stopPropagation();
+        const card = e.target.closest('.game-card');
+        if (card) {
+            await animate(card, { opacity: [1, 0], scale: [1, 0.82], y: [0, -8] }, {
+                duration: 0.2, ease: 'easeIn'
+            });
+        }
         await fetch(`/delete/${id}`, { method: "DELETE" });
         loadLibrary();
-    }
+    };
 
-    function filterLibrary(status, btn) {
+    // ─── Filter tabs ────────────────────────────────────────────────
+    window.filterLibrary = function(status, btn) {
         currentFilter = status;
         document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
         btn.classList.add('active');
+        animate(btn, { scale: [1, 0.88, 1.05, 1] }, { duration: 0.38, ease: 'easeOut' });
         renderLibrary();
-    }
+    };
 
+    // ─── Render library ────────────────────────────────────────────
     function renderLibrary() {
         const grid = document.getElementById("libraryGrid");
         grid.innerHTML = "";
 
         const searchTerm = (document.getElementById("librarySearch")?.value || "").toLowerCase().trim();
+        const platformFilter = document.getElementById("platformFilter")?.value || "all";
         const sortBy = document.getElementById("sortSelect")?.value || "rating";
 
-        // Stats always reflect the full library
-        const total = allGames.length;
+        // Header stat count-ups
+        const total     = allGames.length;
         const completed = allGames.filter(g => g.status === 'completed').length;
-        const playing = allGames.filter(g => g.status === 'playing').length;
-        document.getElementById("totalCount").textContent = total;
-        document.getElementById("completedCount").textContent = completed;
-        document.getElementById("playingCount").textContent = playing;
+        const playing   = allGames.filter(g => g.status === 'playing').length;
+        const backlog   = allGames.filter(g => g.status === 'backlog').length;
+        animateNumber(document.getElementById("totalCount"),     total);
+        animateNumber(document.getElementById("completedCount"), completed);
+        animateNumber(document.getElementById("playingCount"),   playing);
+        animateNumber(document.getElementById("backlogCount"),   backlog);
 
-        // Stats cards
+        // Big stat blocks
         if (total > 0) {
             const rated = allGames.filter(g => g.rating);
             const avg = rated.length
-                ? (rated.reduce((s, g) => s + g.rating, 0) / rated.length).toFixed(1)
-                : '—';
-            document.getElementById("statAvgRating").textContent = avg;
+                ? rated.reduce((s, g) => s + g.rating, 0) / rated.length
+                : 0;
+            const avgEl = document.getElementById("statAvgRating");
+            if (avg > 0) animateNumber(avgEl, avg, { decimals: 1 });
+            else avgEl.textContent = '—';
 
-            document.getElementById("statCompletion").textContent = `${Math.round((completed / total) * 100)}%`;
+            animateNumber(
+                document.getElementById("statCompletion"),
+                Math.round((completed / total) * 100),
+                { suffix: '%' }
+            );
 
             const genreCounts = {};
             allGames.forEach(g => {
@@ -1008,20 +1230,26 @@
                 });
             });
             const top = Object.entries(genreCounts).sort((a, b) => b[1] - a[1])[0];
-            document.getElementById("statTopGenre").textContent = top ? top[0] : '—';
+            const genreEl = document.getElementById("statTopGenre");
+            const newGenre = top ? top[0] : '—';
+            if (genreEl.textContent !== newGenre) {
+                genreEl.textContent = newGenre;
+                animate(genreEl, { opacity: [0, 1], y: [10, 0] }, { duration: 0.4, ease: 'easeOut' });
+            }
         } else {
             ['statAvgRating', 'statCompletion', 'statTopGenre'].forEach(id => {
                 document.getElementById(id).textContent = '—';
             });
         }
 
-        // Filter by status tab + search term
-        let filtered = currentFilter === 'all' ? [...allGames] : allGames.filter(g => g.status === currentFilter);
-        if (searchTerm) {
-            filtered = filtered.filter(g => g.name.toLowerCase().includes(searchTerm));
-        }
+        // Filter
+        const libraryGames = allGames.filter(g => g.status !== 'backlog');
+        let filtered = currentFilter === 'all'
+            ? [...libraryGames]
+            : libraryGames.filter(g => g.status === currentFilter);
+        if (platformFilter !== 'all') filtered = filtered.filter(g => g.platform === platformFilter);
+        if (searchTerm)              filtered = filtered.filter(g => g.name.toLowerCase().includes(searchTerm));
 
-        // Sort
         filtered.sort((a, b) => {
             if (sortBy === 'rating') return (b.rating || 0) - (a.rating || 0);
             if (sortBy === 'name')   return a.name.localeCompare(b.name);
@@ -1037,11 +1265,13 @@
             return;
         }
 
+        const cards = [];
         filtered.forEach(game => {
             const card = document.createElement("div");
             card.className = "game-card";
             card.innerHTML = `
                 <button class="delete-btn" onclick="deleteGame(${game.id}, event)">×</button>
+                ${game.platform ? `<span class="platform-badge">${platformAbbr(game.platform)}</span>` : ''}
                 ${game.cover ? `<img src="${game.cover}" onerror="this.outerHTML='<div class=no-cover>No Image</div>'">` : '<div class="no-cover">No Image</div>'}
                 <div class="card-body">
                     <h3>${game.name}</h3>
@@ -1052,23 +1282,100 @@
                 </div>
             `;
             card.onclick = () => openDetailModal(game);
+            addCardHover(card);
             grid.appendChild(card);
+            cards.push(card);
         });
+
+        if (cards.length) {
+            animate(cards, { opacity: [0, 1], y: [22, 0] }, {
+                delay: stagger(0.05, { startDelay: 0.03 }),
+                type: 'spring', stiffness: 260, damping: 24
+            });
+        }
     }
 
+    // ─── Banner ────────────────────────────────────────────────────
+    function renderBanner() {
+        const covers = allGames.map(g => g.cover).filter(Boolean);
+        const track = document.getElementById("bannerTrack");
+        if (covers.length === 0) { track.innerHTML = ""; return; }
+        let images = [...covers];
+        while (images.length < 14) images = [...images, ...covers];
+        track.innerHTML = [...images, ...images]
+            .map(src => `<img class="banner-cover" src="${src}" onerror="this.style.display='none'">`)
+            .join("");
+    }
+
+    // ─── Backlog ───────────────────────────────────────────────────
+    function renderBacklog() {
+        const games = allGames.filter(g => g.status === 'backlog');
+        const section = document.getElementById("backlogSection");
+        const grid    = document.getElementById("backlogGrid");
+
+        section.style.display = games.length > 0 ? 'block' : 'none';
+        document.getElementById("backlogHeaderCount").textContent =
+            `${games.length} game${games.length !== 1 ? 's' : ''}`;
+        grid.innerHTML = "";
+
+        const cards = [];
+        games.forEach(game => {
+            const card = document.createElement("div");
+            card.className = "game-card";
+            card.innerHTML = `
+                <button class="delete-btn" onclick="deleteGame(${game.id}, event)">×</button>
+                ${game.platform ? `<span class="platform-badge">${platformAbbr(game.platform)}</span>` : ''}
+                ${game.cover ? `<img src="${game.cover}" onerror="this.outerHTML='<div class=no-cover>No Image</div>'">` : '<div class="no-cover">No Image</div>'}
+                <div class="card-body">
+                    <h3>${game.name}</h3>
+                    <div class="card-meta">
+                        <span style="font-size:11px;color:#555">${game.year || ''}${game.genre ? ' · ' + game.genre.split(', ')[0] : ''}</span>
+                    </div>
+                </div>
+            `;
+            card.onclick = () => openDetailModal(game);
+            addCardHover(card);
+            grid.appendChild(card);
+            cards.push(card);
+        });
+
+        if (cards.length) {
+            animate(cards, { opacity: [0, 1], y: [22, 0] }, {
+                delay: stagger(0.05, { startDelay: 0.03 }),
+                type: 'spring', stiffness: 260, damping: 24
+            });
+        }
+    }
+
+    // ─── Platform filter ───────────────────────────────────────────
+    function updatePlatformOptions() {
+        const select = document.getElementById("platformFilter");
+        const current = select.value;
+        const platforms = [...new Set(allGames.map(g => g.platform).filter(p => p))].sort();
+        select.innerHTML = '<option value="all">All Platforms</option>';
+        platforms.forEach(p => {
+            const opt = document.createElement("option");
+            opt.value = p; opt.textContent = p;
+            select.appendChild(opt);
+        });
+        if (platforms.includes(current)) select.value = current;
+    }
+
+    // ─── Load ──────────────────────────────────────────────────────
     async function loadLibrary() {
         const res = await fetch("/library");
         allGames = await res.json();
+        updatePlatformOptions();
+        renderBanner();
         renderLibrary();
+        renderBacklog();
     }
 
-    // ── Detail modal ──────────────────────────────────────────
-
+    // ─── Detail modal ──────────────────────────────────────────────
     async function openDetailModal(game) {
         selectedLibraryGame = game;
 
-        // Banner
-        const banner = document.getElementById("detailBanner");
+        const banner   = document.getElementById("detailBanner");
         const noBanner = document.getElementById("detailNoBanner");
         if (game.cover) {
             banner.src = game.cover;
@@ -1079,16 +1386,15 @@
             noBanner.style.display = "flex";
         }
 
-        // Title
         document.getElementById("detailTitle").textContent = game.name;
 
-        // Tags
         const tags = [];
-        if (game.year && game.year !== "Unknown") tags.push(`<span class="detail-tag year">${game.year}</span>`);
-        if (game.genre) game.genre.split(", ").forEach(g => tags.push(`<span class="detail-tag">${g}</span>`));
+        if (game.year && game.year !== "Unknown")
+            tags.push(`<span class="detail-tag year">${game.year}</span>`);
+        if (game.genre)
+            game.genre.split(", ").forEach(g => tags.push(`<span class="detail-tag">${g}</span>`));
         document.getElementById("detailTags").innerHTML = tags.join("");
 
-        // Description — show loading state first
         const descEl = document.getElementById("detailDescription");
         if (game.description) {
             descEl.textContent = game.description;
@@ -1096,12 +1402,10 @@
         } else {
             descEl.textContent = "Loading description…";
             descEl.classList.add("loading");
-            // Fetch lazily
             try {
                 const resp = await fetch(`/description/${game.id}`);
                 const data = await resp.json();
                 descEl.textContent = data.description || "No description available.";
-                // Cache on the local object so repeat opens are instant
                 const found = allGames.find(g => g.id === game.id);
                 if (found) found.description = data.description;
             } catch {
@@ -1110,48 +1414,65 @@
             descEl.classList.remove("loading");
         }
 
-        // Editable fields
-        document.getElementById("detailStatus").value = game.status;
+        document.getElementById("detailStatus").value   = game.status;
         document.getElementById("detailPlatform").value = game.platform || "";
-        document.getElementById("detailRating").value = game.rating;
+        document.getElementById("detailRating").value   = game.rating;
 
-        // Show platform as a tag if set
         if (game.platform) {
-            document.getElementById("detailTags").innerHTML += `<span class="detail-tag" style="background:rgba(255,255,255,0.04);color:#7c6ff7">${game.platform}</span>`;
+            document.getElementById("detailTags").innerHTML +=
+                `<span class="detail-tag" style="background:rgba(255,255,255,0.04);color:#7c6ff7">${game.platform}</span>`;
         }
 
-        document.getElementById("detailOverlay").classList.add("active");
+        const overlay = document.getElementById("detailOverlay");
+        openOverlay(overlay, overlay.querySelector('.detail-modal'));
     }
 
-    function closeDetailModal() {
-        document.getElementById("detailOverlay").classList.remove("active");
-        selectedLibraryGame = null;
-    }
+    window.closeDetailModal = async function() {
+        const overlay = document.getElementById("detailOverlay");
+        await closeOverlay(overlay, overlay.querySelector('.detail-modal'), () => {
+            selectedLibraryGame = null;
+        });
+    };
 
-    async function saveGameUpdate() {
+    window.saveGameUpdate = async function() {
         if (!selectedLibraryGame) return;
         const payload = {
-            status: document.getElementById("detailStatus").value,
-            rating: parseInt(document.getElementById("detailRating").value),
+            status:   document.getElementById("detailStatus").value,
+            rating:   parseInt(document.getElementById("detailRating").value),
             platform: document.getElementById("detailPlatform").value
         };
+        const btn = document.querySelector('#detailOverlay .btn-add');
+        if (btn) await animate(btn, { scale: [1, 0.93, 1] }, { duration: 0.22 });
         await fetch(`/update/${selectedLibraryGame.id}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(payload)
         });
-        closeDetailModal();
+        await window.closeDetailModal();
         loadLibrary();
-    }
+    };
 
-    // Close modals when clicking the dark backdrop
+    // ─── Backdrop click ────────────────────────────────────────────
     document.getElementById("modalOverlay").addEventListener("click", function(e) {
-        if (e.target === this) closeModal();
+        if (e.target === this) window.closeModal();
     });
     document.getElementById("detailOverlay").addEventListener("click", function(e) {
-        if (e.target === this) closeDetailModal();
+        if (e.target === this) window.closeDetailModal();
     });
 
+    // ─── Page entrance animations ──────────────────────────────────
+    animate('header', { opacity: [0, 1], y: [-10, 0] }, { duration: 0.5, ease: 'easeOut' });
+
+    const heroTitle = document.querySelector('.hero-content .search-title');
+    const heroBar   = document.querySelector('.hero-content .search-bar');
+    if (heroTitle && heroBar) {
+        animate([heroTitle, heroBar], { opacity: [0, 1], y: [20, 0] }, {
+            delay: stagger(0.13),
+            type: 'spring', stiffness: 240, damping: 22
+        });
+    }
+
+    // ─── Init ──────────────────────────────────────────────────────
     loadLibrary();
 </script>
 

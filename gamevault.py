@@ -1,6 +1,9 @@
 from flask import Flask, render_template, request, jsonify
 import requests
 import sqlite3
+import webbrowser
+import threading
+import time
 
 app = Flask(__name__)
 RAWG_KEY = "a99438f82df045e29ac53588ae56daf1"
@@ -161,4 +164,5 @@ def delete(game_id):
 
 if __name__ == "__main__":
     init_db()
-    app.run(debug=True)
+    threading.Thread(target=lambda: (time.sleep(1.5), webbrowser.open("http://127.0.0.1:5000"))).start()
+    app.run(debug=False)
