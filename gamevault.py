@@ -201,4 +201,4 @@ def delete(game_id):
 if __name__ == "__main__":
     init_db()
     threading.Thread(target=lambda: (time.sleep(1.5), webbrowser.open("http://127.0.0.1:5000"))).start()
-    app.run(debug=False)
+    app.run(debug=True)

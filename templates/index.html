@@ -466,6 +466,80 @@
             color: #333;
         }
 
+        /* ── Theme toggle button ── */
+        .theme-toggle {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #666;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: border-color 0.2s, color 0.2s, background 0.2s;
+            line-height: 1;
+            font-family: sans-serif;
+        }
+        .theme-toggle:hover { border-color: #7c6ff7; color: #7c6ff7; }
+
+        /* ── Light mode overrides ── */
+        body.light { background: #f4f4f8; color: #1a1a2e; }
+        body.light header { background: rgba(244,244,248,0.92); border-bottom-color: rgba(0,0,0,0.08); }
+        body.light .theme-toggle { border-color: rgba(0,0,0,0.12); color: #888; }
+        body.light .theme-toggle:hover { border-color: #7c6ff7; color: #7c6ff7; }
+        body.light .stat .number { color: #1a1a2e; }
+        body.light .hero-section { background: #f4f4f8; border-bottom-color: rgba(0,0,0,0.06); }
+        body.light .hero-overlay { background: linear-gradient(to bottom, rgba(244,244,248,0.6) 0%, rgba(244,244,248,0.45) 50%, rgba(244,244,248,0.7) 100%); }
+        body.light .banner-cover { opacity: 0.18; }
+        body.light .hero-content .search-title { color: #888; }
+        body.light input[type="text"] { background: #ffffff; border-color: rgba(0,0,0,0.1); color: #1a1a2e; }
+        body.light input[type="text"]::placeholder { color: #bbb; }
+        body.light .result-card { background: #ffffff; border-color: rgba(0,0,0,0.08); }
+        body.light .result-card .rc-info h3 { color: #1a1a2e; }
+        body.light .result-card .rc-info p { color: #aaa; }
+        body.light .section-title { color: #1a1a2e; }
+        body.light .stats-row { border-bottom-color: rgba(0,0,0,0.06); }
+        body.light .stat-divider { background: rgba(0,0,0,0.06); }
+        body.light .ring-legend-label { color: #888; }
+        body.light .ring-legend-val { color: #1a1a2e; }
+        body.light .sc-label { color: #999; }
+        body.light .sc-value { color: #1a1a2e; }
+        body.light .library-search { background: #ffffff; border-color: rgba(0,0,0,0.1); color: #1a1a2e; }
+        body.light .library-search::placeholder { color: #bbb; }
+        body.light .sort-select { background: #ffffff; border-color: rgba(0,0,0,0.1); color: #888; }
+        body.light .sort-select:focus { color: #1a1a2e; }
+        body.light .game-card { background: #ffffff; border-color: rgba(0,0,0,0.08); }
+        body.light .game-card h3 { color: #1a1a2e; }
+        body.light .no-cover { background: #e8e8f0; color: #bbb; }
+        body.light .platform-badge { background: rgba(255,255,255,0.8); color: #888; border-color: rgba(0,0,0,0.1); }
+        body.light .delete-btn { background: rgba(255,255,255,0.85); border-color: rgba(0,0,0,0.1); color: #aaa; }
+        body.light .modal-overlay,
+        body.light .detail-overlay { background: rgba(0,0,0,0.5); }
+        body.light .modal { background: #ffffff; border-color: rgba(0,0,0,0.1); }
+        body.light .modal-body h2 { color: #1a1a2e; }
+        body.light .modal-body .game-meta { color: #aaa; }
+        body.light .modal-body label { color: #999; }
+        body.light .modal-body select,
+        body.light .modal-body input[type="number"] { background: #f4f4f8; border-color: rgba(0,0,0,0.1); color: #1a1a2e; }
+        body.light .btn-cancel { color: #aaa; border-color: rgba(0,0,0,0.1); }
+        body.light .btn-cancel:hover { border-color: #bbb; color: #666; }
+        body.light .detail-modal { background: #ffffff; border-color: rgba(0,0,0,0.1); scrollbar-color: #ddd transparent; }
+        body.light .detail-no-banner { background: #e8e8f0; color: #bbb; }
+        body.light .detail-close { background: rgba(255,255,255,0.8); border-color: rgba(0,0,0,0.1); color: #888; }
+        body.light .detail-close:hover { background: rgba(255,255,255,0.95); color: #1a1a2e; }
+        body.light .detail-body h2 { color: #1a1a2e; }
+        body.light .detail-tag { background: rgba(0,0,0,0.06); color: #777; }
+        body.light .detail-tag.year { background: rgba(124,111,247,0.12); color: #7c6ff7; }
+        body.light .detail-description { color: #999; }
+        body.light .detail-body label { color: #999; }
+        body.light .detail-body select,
+        body.light .detail-body input[type="number"] { background: #f4f4f8; border-color: rgba(0,0,0,0.1); color: #1a1a2e; }
+        body.light .backlogSection .section-title { color: #1a1a2e; }
+        body.light #backlogHeaderCount { color: #aaa !important; }
+
         .empty-state h3 {
             font-size: 18px;
             font-weight: 700;
@@ -591,7 +665,15 @@
 
         .btn-add:hover { background: #6a5de0; }
 
-        /* ── Stats row ── */
+        .chart-card-label {
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #3a3a4a;
+        }
+
+/* ── Stats row ── */
         .stats-row {
             display: flex;
             align-items: center;
@@ -885,6 +967,70 @@
         .detail-body input[type="number"]:focus {
             border-color: #7c6ff7;
         }
+        /* ── Print styles ── */
+        @media print {
+            * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            body { background: #fff !important; color: #000 !important; }
+            .no-print, header, .hero-section, .search-results, .section-header .filter-tabs,
+            .stats-row, .library-controls, .library-grid, #backlogSection, .modal-overlay,
+            .detail-overlay, .btn-primary { display: none !important; }
+            .section-header { display: none !important; }
+            #printView { display: block !important; }
+            .container { padding: 0 !important; }
+        }
+
+        .print-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 24px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #7c6ff7;
+        }
+        .print-title {
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            color: #000;
+        }
+        .print-title span { color: #7c6ff7; }
+        .print-meta { font-size: 12px; color: #666; }
+
+        .print-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+        .print-table th {
+            text-align: left;
+            padding: 8px 10px;
+            border-bottom: 1px solid #ddd;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #888;
+            font-weight: 600;
+        }
+        .print-table td {
+            padding: 9px 10px;
+            border-bottom: 1px solid #f0f0f0;
+            color: #1a1a2e;
+            vertical-align: middle;
+        }
+        .print-table tr:nth-child(even) td { background: #fafafa; }
+        .print-table .pt-status {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .print-table .pt-status.completed { background: #d1fae5; color: #065f46; }
+        .print-table .pt-status.playing   { background: #dbeafe; color: #1e40af; }
+        .print-table .pt-status.backlog   { background: #ede9fe; color: #5b21b6; }
+        .print-table .pt-score { font-weight: 700; color: #7c6ff7; }
     </style>
 </head>
 <body>
@@ -908,6 +1054,7 @@
             <div class="number" id="backlogCount">0</div>
             <div class="label">Backlog</div>
         </div>
+        <button class="theme-toggle" id="themeToggle" title="Toggle light/dark mode">☀</button>
     </div>
 </header>
 
@@ -931,10 +1078,13 @@
     <div>
         <div class="section-header">
             <h2 class="section-title">My Library</h2>
-            <div class="filter-tabs">
-                <button class="tab active" onclick="filterLibrary('all', this)">All</button>
-                <button class="tab" onclick="filterLibrary('playing', this)">Playing</button>
-                <button class="tab" onclick="filterLibrary('completed', this)">Completed</button>
+            <div style="display:flex;gap:10px;align-items:center">
+                <div class="filter-tabs">
+                    <button class="tab active" onclick="filterLibrary('all', this)">All</button>
+                    <button class="tab" onclick="filterLibrary('playing', this)">Playing</button>
+                    <button class="tab" onclick="filterLibrary('completed', this)">Completed</button>
+                </div>
+                <button class="btn-primary no-print" style="padding:6px 16px;font-size:12px" onclick="exportPDF()">Export PDF</button>
             </div>
         </div>
         <div class="stats-row">
@@ -949,38 +1099,44 @@
                     <circle id="ringCompleted" cx="100" cy="100" r="80" fill="none"
                             stroke="#34d399" stroke-width="14" stroke-linecap="round"
                             stroke-dasharray="502.65" stroke-dashoffset="502.65"
-                            transform="rotate(-90 100 100)"/>
+                            transform="rotate(-90 100 100)" style="cursor:pointer"/>
                     <circle id="ringPlaying" cx="100" cy="100" r="62" fill="none"
                             stroke="#60a5fa" stroke-width="14" stroke-linecap="round"
                             stroke-dasharray="389.56" stroke-dashoffset="389.56"
-                            transform="rotate(-90 100 100)"/>
+                            transform="rotate(-90 100 100)" style="cursor:pointer"/>
                     <circle id="ringBacklog" cx="100" cy="100" r="44" fill="none"
                             stroke="#7c6ff7" stroke-width="14" stroke-linecap="round"
                             stroke-dasharray="276.46" stroke-dashoffset="276.46"
-                            transform="rotate(-90 100 100)"/>
+                            transform="rotate(-90 100 100)" style="cursor:pointer"/>
                     <!-- Center label -->
                     <text id="ringCenterNum" x="100" y="96" text-anchor="middle"
                           fill="white" font-size="30" font-weight="800" font-family="Inter, sans-serif">0</text>
-                    <text x="100" y="114" text-anchor="middle"
+                    <text id="ringLabel" x="100" y="114" text-anchor="middle"
                           fill="#3a3a4a" font-size="9" font-weight="600"
                           font-family="Inter, sans-serif" letter-spacing="2">GAMES</text>
                 </svg>
                 <div class="ring-legend">
-                    <div class="ring-legend-item">
+                    <div class="ring-legend-item" id="legend-completed" style="cursor:pointer">
                         <span class="ring-legend-dot" style="background:#34d399"></span>
                         <span class="ring-legend-label">Completed</span>
                         <span class="ring-legend-val" id="legendCompleted">0</span>
                     </div>
-                    <div class="ring-legend-item">
+                    <div class="ring-legend-item" id="legend-playing" style="cursor:pointer">
                         <span class="ring-legend-dot" style="background:#60a5fa"></span>
                         <span class="ring-legend-label">Playing</span>
                         <span class="ring-legend-val" id="legendPlaying">0</span>
                     </div>
-                    <div class="ring-legend-item">
+                    <div class="ring-legend-item" id="legend-backlog" style="cursor:pointer">
                         <span class="ring-legend-dot" style="background:#7c6ff7"></span>
                         <span class="ring-legend-label">Backlog</span>
                         <span class="ring-legend-val" id="legendBacklog">0</span>
                     </div>
+                </div>
+            </div>
+            <div class="stat-block" style="flex:2;min-width:0;padding-left:0">
+                <div class="sc-label" style="margin-bottom:10px">Games by Platform</div>
+                <div style="position:relative;height:120px">
+                    <canvas id="platformBarChart"></canvas>
                 </div>
             </div>
             <div class="stat-divider"></div>
@@ -992,11 +1148,6 @@
             <div class="stat-block">
                 <div class="sc-label">Completion</div>
                 <div class="sc-value" id="statCompletion">—</div>
-            </div>
-            <div class="stat-divider"></div>
-            <div class="stat-block">
-                <div class="sc-label">Top Genre</div>
-                <div class="sc-value" id="statTopGenre">—</div>
             </div>
         </div>
 
@@ -1022,6 +1173,27 @@
         </div>
         <div class="library-grid" id="backlogGrid"></div>
     </div>
+
+    <!-- Print-only view -->
+    <div id="printView" style="display:none">
+        <div class="print-header">
+            <div class="print-title">GAME<span>VAULT</span></div>
+            <div class="print-meta" id="printMeta"></div>
+        </div>
+        <table class="print-table" id="printTable">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Game</th>
+                    <th>Platform</th>
+                    <th>Status</th>
+                    <th>Score</th>
+                    <th>Year</th>
+                </tr>
+            </thead>
+            <tbody id="printTableBody"></tbody>
+        </table>
+    </div>
 </div>
 
 <div class="modal-overlay" id="modalOverlay">
@@ -1040,8 +1212,10 @@
                 <option value="completed">Completed</option>
                 <option value="backlog">Want to Play</option>
             </select>
-            <label>Your Score</label>
-            <input type="number" id="modalRating" min="1" max="10" value="8" placeholder="1-10">
+            <div id="modalRatingWrap">
+                <label>Your Score</label>
+                <input type="number" id="modalRating" min="1" max="10" value="8" placeholder="1-10">
+            </div>
             <div class="modal-buttons">
                 <button class="btn-cancel" onclick="closeModal()">Cancel</button>
                 <button class="btn-add" onclick="addGame()">Add to Library</button>
@@ -1074,7 +1248,7 @@
                         <option value="">Select platform…</option>
                     </select>
                 </div>
-                <div class="detail-field">
+                <div class="detail-field" id="detailRatingWrap">
                     <label>Your Score</label>
                     <input type="number" id="detailRating" min="1" max="10">
                 </div>
@@ -1087,6 +1261,7 @@
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
 <script type="module">
     import { animate, stagger } from "https://cdn.jsdelivr.net/npm/motion@latest/+esm";
 
@@ -1095,6 +1270,15 @@
     let selectedLibraryGame = null;
     let allGames = [];
     let currentFilter = 'all';
+    let platformBarChart = null;
+    let ringFilter = null;
+    let ringCounts = { completed: 0, playing: 0, backlog: 0, total: 0 };
+
+    const RING_META = [
+        { status: 'completed', id: 'ringCompleted', color: '#34d399', label: 'COMPLETED' },
+        { status: 'playing',   id: 'ringPlaying',   color: '#60a5fa', label: 'PLAYING'   },
+        { status: 'backlog',   id: 'ringBacklog',   color: '#7c6ff7', label: 'BACKLOG'   },
+    ];
 
     const PLATFORM_ABBR = {
         'Nintendo Switch':  'Switch',
@@ -1133,8 +1317,71 @@
         });
     }
 
+    // ─── Ring chart highlight ─────────────────────────────────────
+    function setRingHighlight(activeStatus) {
+        const centerNum   = document.getElementById('ringCenterNum');
+        const centerLabel = document.getElementById('ringLabel');
+        RING_META.forEach(({ status, id }) => {
+            const active = !activeStatus || status === activeStatus;
+            animate(document.getElementById(id), { opacity: active ? 1 : 0.12 }, { duration: 0.22, ease: 'easeOut' });
+        });
+        if (activeStatus) {
+            const meta  = RING_META.find(m => m.status === activeStatus);
+            centerNum.textContent = ringCounts[activeStatus];
+            centerNum.setAttribute('fill', meta.color);
+            centerLabel.textContent = meta.label;
+            centerLabel.setAttribute('fill', meta.color);
+            centerLabel.setAttribute('opacity', '0.75');
+        } else {
+            centerNum.textContent = ringCounts.total;
+            centerNum.setAttribute('fill', 'white');
+            centerLabel.textContent = 'GAMES';
+            centerLabel.setAttribute('fill', '#3a3a4a');
+            centerLabel.setAttribute('opacity', '1');
+        }
+    }
+
+    function setupRingInteractions() {
+        RING_META.forEach(({ status, id }) => {
+            const ringEl     = document.getElementById(id);
+            const legendItem = document.getElementById('legend-' + status);
+
+            [ringEl, legendItem].forEach(el => {
+                el.addEventListener('mouseenter', () => {
+                    if (!ringFilter) setRingHighlight(status);
+                });
+                el.addEventListener('mouseleave', () => {
+                    if (!ringFilter) setRingHighlight(null);
+                });
+                el.addEventListener('click', () => {
+                    if (ringFilter === status) {
+                        ringFilter = null;
+                        setRingHighlight(null);
+                        currentFilter = 'all';
+                        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                        document.querySelector('.tab').classList.add('active');
+                        renderLibrary();
+                    } else {
+                        ringFilter = status;
+                        setRingHighlight(status);
+                        if (status === 'backlog') {
+                            document.getElementById('backlogSection').scrollIntoView({ behavior: 'smooth' });
+                        } else {
+                            currentFilter = status;
+                            document.querySelectorAll('.tab').forEach(t => {
+                                t.classList.toggle('active', t.textContent.toLowerCase() === status);
+                            });
+                            renderLibrary();
+                        }
+                    }
+                });
+            });
+        });
+    }
+
     // ─── Ring chart ───────────────────────────────────────────────
     function animateRingChart(completed, playing, backlog) {
+        ringCounts = { completed, playing, backlog, total: completed + playing + backlog };
         const total = completed + playing + backlog;
         const rings = [
             { id: 'ringCompleted', r: 80, count: completed },
@@ -1149,10 +1396,25 @@
                 type: 'spring', stiffness: 68, damping: 16, delay: i * 0.07
             });
         });
-        animateNumber(document.getElementById('ringCenterNum'), total);
+        setRingHighlight(ringFilter);
+        if (!ringFilter) animateNumber(document.getElementById('ringCenterNum'), total);
         [['legendCompleted', completed], ['legendPlaying', playing], ['legendBacklog', backlog]]
             .forEach(([id, n]) => animateNumber(document.getElementById(id), n));
     }
+
+    // ─── Score visibility ─────────────────────────────────────────
+    function setScoreVisible(wrapId, visible) {
+        const el = document.getElementById(wrapId);
+        if (el) el.style.display = visible ? '' : 'none';
+    }
+
+    document.getElementById('modalStatus').addEventListener('change', e => {
+        setScoreVisible('modalRatingWrap', e.target.value !== 'backlog');
+    });
+
+    document.getElementById('detailStatus').addEventListener('change', e => {
+        setScoreVisible('detailRatingWrap', e.target.value !== 'backlog');
+    });
 
     // ─── Platform select helper ────────────────────────────────────
     function populatePlatformSelect(selectEl, platforms, currentValue = '') {
@@ -1276,6 +1538,8 @@
 
     // ─── Filter tabs ────────────────────────────────────────────────
     window.filterLibrary = function(status, btn) {
+        ringFilter = null;
+        setRingHighlight(null);
         currentFilter = status;
         document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
         btn.classList.add('active');
@@ -1327,14 +1591,17 @@
             });
             const top = Object.entries(genreCounts).sort((a, b) => b[1] - a[1])[0];
             const genreEl = document.getElementById("statTopGenre");
-            const newGenre = top ? top[0] : '—';
-            if (genreEl.textContent !== newGenre) {
-                genreEl.textContent = newGenre;
-                animate(genreEl, { opacity: [0, 1], y: [10, 0] }, { duration: 0.4, ease: 'easeOut' });
+            if (genreEl) {
+                const newGenre = top ? top[0] : '—';
+                if (genreEl.textContent !== newGenre) {
+                    genreEl.textContent = newGenre;
+                    animate(genreEl, { opacity: [0, 1], y: [10, 0] }, { duration: 0.4, ease: 'easeOut' });
+                }
             }
         } else {
             ['statAvgRating', 'statCompletion', 'statTopGenre'].forEach(id => {
-                document.getElementById(id).textContent = '—';
+                const el = document.getElementById(id);
+                if (el) el.textContent = '—';
             });
         }
 
@@ -1457,6 +1724,67 @@
         if (platforms.includes(current)) select.value = current;
     }
 
+    // ─── Charts ────────────────────────────────────────────────────
+    function renderCharts() {
+        if (allGames.length === 0) return;
+
+        // Bar chart — games per platform
+        const counts = {};
+        allGames.forEach(g => { if (g.platform) counts[g.platform] = (counts[g.platform] || 0) + 1; });
+        const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]);
+        const labels = sorted.map(([p]) => p);
+        const data   = sorted.map(([, n]) => n);
+
+        if (platformBarChart) {
+            platformBarChart.data.labels = labels;
+            platformBarChart.data.datasets[0].data = data;
+            platformBarChart.update('active');
+        } else {
+            platformBarChart = new Chart(document.getElementById('platformBarChart'), {
+                type: 'bar',
+                data: {
+                    labels,
+                    datasets: [{
+                        data,
+                        backgroundColor: 'rgba(124,111,247,0.65)',
+                        hoverBackgroundColor: '#7c6ff7',
+                        borderRadius: 4,
+                        borderSkipped: false,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    animation: { duration: 700, easing: 'easeOutQuart' },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: '#1a1a2e',
+                            titleColor: '#888',
+                            bodyColor: 'white',
+                            borderColor: 'rgba(255,255,255,0.08)',
+                            borderWidth: 1,
+                            padding: 8,
+                            callbacks: { label: ctx => ` ${ctx.raw} game${ctx.raw !== 1 ? 's' : ''}` }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: '#666', font: { family: 'Inter', size: 10 }, maxRotation: 30 },
+                            border: { color: 'transparent' }
+                        },
+                        y: {
+                            grid: { color: 'rgba(255,255,255,0.04)' },
+                            ticks: { color: '#555', font: { family: 'Inter', size: 10 }, stepSize: 1 },
+                            border: { color: 'transparent' }
+                        }
+                    }
+                }
+            });
+        }
+    }
+
     // ─── Load ──────────────────────────────────────────────────────
     async function loadLibrary() {
         const res = await fetch("/library");
@@ -1465,6 +1793,7 @@
         renderBanner();
         renderLibrary();
         renderBacklog();
+        renderCharts();
     }
 
     // ─── Detail modal ──────────────────────────────────────────────
@@ -1511,6 +1840,7 @@
         }
 
         document.getElementById("detailStatus").value = game.status;
+        setScoreVisible('detailRatingWrap', game.status !== 'backlog');
         populatePlatformSelect(
             document.getElementById("detailPlatform"),
             game.platforms_available || [],
@@ -1572,7 +1902,60 @@
         });
     }
 
+    // ─── Export PDF ───────────────────────────────────────────────
+    window.exportPDF = function() {
+        const sorted = [...allGames].sort((a, b) => {
+            const order = { completed: 0, playing: 1, backlog: 2 };
+            return (order[a.status] - order[b.status]) || (b.rating || 0) - (a.rating || 0);
+        });
+
+        const tbody = document.getElementById('printTableBody');
+        tbody.innerHTML = sorted.map((g, i) => `
+            <tr>
+                <td style="color:#bbb;width:32px">${i + 1}</td>
+                <td style="font-weight:600">${g.name}</td>
+                <td style="color:#666">${g.platform || '—'}</td>
+                <td><span class="pt-status ${g.status}">${g.status === 'backlog' ? 'Want to Play' : g.status}</span></td>
+                <td class="pt-score">${g.rating ? g.rating + '/10' : '—'}</td>
+                <td style="color:#888">${g.year || '—'}</td>
+            </tr>
+        `).join('');
+
+        const total     = allGames.length;
+        const completed = allGames.filter(g => g.status === 'completed').length;
+        const playing   = allGames.filter(g => g.status === 'playing').length;
+        const backlog   = allGames.filter(g => g.status === 'backlog').length;
+        document.getElementById('printMeta').textContent =
+            `${total} games · ${completed} completed · ${playing} playing · ${backlog} want to play`;
+
+        window.print();
+    };
+
+    // ─── Theme toggle ─────────────────────────────────────────────
+    function applyTheme(light) {
+        document.body.classList.toggle('light', light);
+        document.getElementById('themeToggle').textContent = light ? '☾' : '☀';
+        if (platformBarChart) {
+            const tickColor = light ? '#888' : '#666';
+            const gridColor = light ? 'rgba(0,0,0,0.06)' : 'rgba(255,255,255,0.04)';
+            platformBarChart.options.scales.x.ticks.color = tickColor;
+            platformBarChart.options.scales.y.ticks.color = tickColor;
+            platformBarChart.options.scales.y.grid.color  = gridColor;
+            platformBarChart.update();
+        }
+    }
+
+    const savedTheme = localStorage.getItem('gv-theme');
+    applyTheme(savedTheme === 'light');
+
+    document.getElementById('themeToggle').addEventListener('click', () => {
+        const isLight = document.body.classList.toggle('light');
+        localStorage.setItem('gv-theme', isLight ? 'light' : 'dark');
+        applyTheme(isLight);
+    });
+
     // ─── Init ──────────────────────────────────────────────────────
+    setupRingInteractions();
     loadLibrary();
 </script>
 
