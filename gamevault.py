@@ -4,9 +4,34 @@ import sqlite3
 import webbrowser
 import threading
 import time
+import json
 
 app = Flask(__name__)
 RAWG_KEY = "a99438f82df045e29ac53588ae56daf1"
+
+# Maps RAWG platform names to our canonical options
+PLATFORM_MAP = {
+    'PC':               'PC',
+    'macOS':            'PC',
+    'Linux':            'PC',
+    'PlayStation 5':    'PS5',
+    'PlayStation 4':    'PS4',
+    'PlayStation 3':    'PS3',
+    'Xbox Series S/X':  'Xbox Series X/S',
+    'Xbox One':         'Xbox One',
+    'Xbox 360':         'Xbox 360',
+    'Nintendo Switch':  'Nintendo Switch',
+    'Wii':              'Wii',
+    'Wii U':            'Wii U',
+    'Nintendo DS':      'Nintendo DS',
+    'Nintendo 3DS':     'Nintendo 3DS',
+    'Game Boy':         'Game Boy',
+    'Game Boy Advance': 'Game Boy Advance',
+    'PSP':              'PSP',
+    'PS Vita':          'PS Vita',
+    'Android':          'Mobile',
+    'iOS':              'Mobile',
+}
 
 def init_db():
     conn = sqlite3.connect("games.db")
@@ -21,7 +46,7 @@ def init_db():
         year TEXT
     )''')
     # Migrate: add new columns if they don't exist yet
-    for col, coltype in [("description", "TEXT"), ("rawg_id", "TEXT"), ("platform", "TEXT")]:
+    for col, coltype in [("description", "TEXT"), ("rawg_id", "TEXT"), ("platform", "TEXT"), ("platforms_available", "TEXT")]:
         try:
             c.execute(f"ALTER TABLE games ADD COLUMN {col} {coltype}")
         except sqlite3.OperationalError:
@@ -43,12 +68,21 @@ def search():
     data = response.json()
     results = []
     for game in data.get("results", []):
+        seen = set()
+        platforms_available = []
+        for p in (game.get("platforms") or []):
+            rawg_name = p.get("platform", {}).get("name", "")
+            canonical = PLATFORM_MAP.get(rawg_name)
+            if canonical and canonical not in seen:
+                seen.add(canonical)
+                platforms_available.append(canonical)
         results.append({
             "rawg_id": str(game.get("id", "")),
             "name": game.get("name"),
             "cover": game.get("background_image"),
             "year": game.get("released", "")[:4] if game.get("released") else "Unknown",
-            "genre": ", ".join([g["name"] for g in game.get("genres", [])])
+            "genre": ", ".join([g["name"] for g in game.get("genres", [])]),
+            "platforms_available": platforms_available
         })
     return jsonify(results)
 
@@ -69,9 +103,10 @@ def add():
             pass
     conn = sqlite3.connect("games.db")
     c = conn.cursor()
+    platforms_available = json.dumps(data.get("platforms_available", []))
     c.execute(
-        "INSERT INTO games (name, cover, rating, status, genre, year, description, rawg_id, platform) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
-        (data["name"], data["cover"], data["rating"], data["status"], data["genre"], data["year"], description, rawg_id, data.get("platform", ""))
+        "INSERT INTO games (name, cover, rating, status, genre, year, description, rawg_id, platform, platforms_available) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        (data["name"], data["cover"], data["rating"], data["status"], data["genre"], data["year"], description, rawg_id, data.get("platform", ""), platforms_available)
     )
     conn.commit()
     conn.close()
@@ -81,13 +116,14 @@ def add():
 def library():
     conn = sqlite3.connect("games.db")
     c = conn.cursor()
-    c.execute("SELECT id, name, cover, rating, status, genre, year, description, rawg_id, platform FROM games ORDER BY rating DESC")
+    c.execute("SELECT id, name, cover, rating, status, genre, year, description, rawg_id, platform, platforms_available FROM games ORDER BY rating DESC")
     rows = c.fetchall()
     conn.close()
     games = [{
         "id": r[0], "name": r[1], "cover": r[2], "rating": r[3],
         "status": r[4], "genre": r[5], "year": r[6],
-        "description": r[7] or "", "rawg_id": r[8] or "", "platform": r[9] or ""
+        "description": r[7] or "", "rawg_id": r[8] or "", "platform": r[9] or "",
+        "platforms_available": json.loads(r[10] or "[]")
     } for r in rows]
     return jsonify(games)
 

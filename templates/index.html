@@ -594,7 +594,7 @@
         /* ── Stats row ── */
         .stats-row {
             display: flex;
-            align-items: flex-start;
+            align-items: center;
             margin-bottom: 32px;
             padding: 28px 0;
             border-bottom: 1px solid rgba(255,255,255,0.05);
@@ -605,13 +605,61 @@
             padding: 0 36px;
         }
 
-        .stat-block:first-child { padding-left: 0; }
-        .stat-block:last-child  { padding-right: 0; }
+        .stat-block:last-child { padding-right: 0; }
 
         .stat-divider {
             width: 1px;
+            height: 80px;
             background: rgba(255,255,255,0.06);
-            align-self: stretch;
+            align-self: center;
+            flex-shrink: 0;
+        }
+
+        /* ── Ring chart ── */
+        .ring-chart-wrap {
+            display: flex;
+            align-items: center;
+            gap: 22px;
+            padding-right: 36px;
+            flex-shrink: 0;
+        }
+
+        .ring-chart-svg { overflow: visible; flex-shrink: 0; }
+
+        .ring-legend {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .ring-legend-item {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            white-space: nowrap;
+        }
+
+        .ring-legend-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .ring-legend-label {
+            font-size: 11px;
+            color: #555;
+            font-weight: 500;
+            flex: 1;
+            min-width: 68px;
+        }
+
+        .ring-legend-val {
+            font-size: 15px;
+            font-weight: 700;
+            color: white;
+            min-width: 22px;
+            text-align: right;
         }
 
         .sc-label {
@@ -890,6 +938,52 @@
             </div>
         </div>
         <div class="stats-row">
+            <!-- Ring chart -->
+            <div class="ring-chart-wrap">
+                <svg class="ring-chart-svg" viewBox="0 0 200 200" width="176" height="176">
+                    <!-- Track rings -->
+                    <circle cx="100" cy="100" r="80" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="14"/>
+                    <circle cx="100" cy="100" r="62" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="14"/>
+                    <circle cx="100" cy="100" r="44" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="14"/>
+                    <!-- Progress arcs — start fully offset (hidden), JS animates them in -->
+                    <circle id="ringCompleted" cx="100" cy="100" r="80" fill="none"
+                            stroke="#34d399" stroke-width="14" stroke-linecap="round"
+                            stroke-dasharray="502.65" stroke-dashoffset="502.65"
+                            transform="rotate(-90 100 100)"/>
+                    <circle id="ringPlaying" cx="100" cy="100" r="62" fill="none"
+                            stroke="#60a5fa" stroke-width="14" stroke-linecap="round"
+                            stroke-dasharray="389.56" stroke-dashoffset="389.56"
+                            transform="rotate(-90 100 100)"/>
+                    <circle id="ringBacklog" cx="100" cy="100" r="44" fill="none"
+                            stroke="#7c6ff7" stroke-width="14" stroke-linecap="round"
+                            stroke-dasharray="276.46" stroke-dashoffset="276.46"
+                            transform="rotate(-90 100 100)"/>
+                    <!-- Center label -->
+                    <text id="ringCenterNum" x="100" y="96" text-anchor="middle"
+                          fill="white" font-size="30" font-weight="800" font-family="Inter, sans-serif">0</text>
+                    <text x="100" y="114" text-anchor="middle"
+                          fill="#3a3a4a" font-size="9" font-weight="600"
+                          font-family="Inter, sans-serif" letter-spacing="2">GAMES</text>
+                </svg>
+                <div class="ring-legend">
+                    <div class="ring-legend-item">
+                        <span class="ring-legend-dot" style="background:#34d399"></span>
+                        <span class="ring-legend-label">Completed</span>
+                        <span class="ring-legend-val" id="legendCompleted">0</span>
+                    </div>
+                    <div class="ring-legend-item">
+                        <span class="ring-legend-dot" style="background:#60a5fa"></span>
+                        <span class="ring-legend-label">Playing</span>
+                        <span class="ring-legend-val" id="legendPlaying">0</span>
+                    </div>
+                    <div class="ring-legend-item">
+                        <span class="ring-legend-dot" style="background:#7c6ff7"></span>
+                        <span class="ring-legend-label">Backlog</span>
+                        <span class="ring-legend-val" id="legendBacklog">0</span>
+                    </div>
+                </div>
+            </div>
+            <div class="stat-divider"></div>
             <div class="stat-block">
                 <div class="sc-label">Avg Rating</div>
                 <div class="sc-value" id="statAvgRating">—</div>
@@ -939,24 +1033,6 @@
             <label>Platform</label>
             <select id="modalPlatform">
                 <option value="">Select platform…</option>
-                <option value="PC">PC</option>
-                <option value="PS5">PS5</option>
-                <option value="PS4">PS4</option>
-                <option value="PS3">PS3</option>
-                <option value="Xbox Series X/S">Xbox Series X/S</option>
-                <option value="Xbox One">Xbox One</option>
-                <option value="Xbox 360">Xbox 360</option>
-                <option value="Nintendo Switch">Nintendo Switch</option>
-                <option value="Wii">Wii</option>
-                <option value="Wii U">Wii U</option>
-                <option value="Nintendo DS">Nintendo DS</option>
-                <option value="Nintendo 3DS">Nintendo 3DS</option>
-                <option value="Game Boy">Game Boy</option>
-                <option value="Game Boy Advance">Game Boy Advance</option>
-                <option value="PSP">PSP</option>
-                <option value="PS Vita">PS Vita</option>
-                <option value="Mobile">Mobile</option>
-                <option value="Other">Other</option>
             </select>
             <label>Status</label>
             <select id="modalStatus">
@@ -995,25 +1071,7 @@
                 <div class="detail-field">
                     <label>Platform</label>
                     <select id="detailPlatform">
-                        <option value="">—</option>
-                        <option value="PC">PC</option>
-                        <option value="PS5">PS5</option>
-                        <option value="PS4">PS4</option>
-                        <option value="PS3">PS3</option>
-                        <option value="Xbox Series X/S">Xbox Series X/S</option>
-                        <option value="Xbox One">Xbox One</option>
-                        <option value="Xbox 360">Xbox 360</option>
-                        <option value="Nintendo Switch">Nintendo Switch</option>
-                        <option value="Wii">Wii</option>
-                        <option value="Wii U">Wii U</option>
-                        <option value="Nintendo DS">Nintendo DS</option>
-                        <option value="Nintendo 3DS">Nintendo 3DS</option>
-                        <option value="Game Boy">Game Boy</option>
-                        <option value="Game Boy Advance">Game Boy Advance</option>
-                        <option value="PSP">PSP</option>
-                        <option value="PS Vita">PS Vita</option>
-                        <option value="Mobile">Mobile</option>
-                        <option value="Other">Other</option>
+                        <option value="">Select platform…</option>
                     </select>
                 </div>
                 <div class="detail-field">
@@ -1072,6 +1130,42 @@
         });
         card.addEventListener('mouseleave', () => {
             animate(card, { y: 0, scale: 1 }, { type: 'spring', stiffness: 300, damping: 26 });
+        });
+    }
+
+    // ─── Ring chart ───────────────────────────────────────────────
+    function animateRingChart(completed, playing, backlog) {
+        const total = completed + playing + backlog;
+        const rings = [
+            { id: 'ringCompleted', r: 80, count: completed },
+            { id: 'ringPlaying',   r: 62, count: playing   },
+            { id: 'ringBacklog',   r: 44, count: backlog    },
+        ];
+        rings.forEach(({ id, r, count }, i) => {
+            const circ   = 2 * Math.PI * r;
+            const el     = document.getElementById(id);
+            const target = total > 0 ? circ * (1 - count / total) : circ;
+            animate(el, { strokeDashoffset: [circ, target] }, {
+                type: 'spring', stiffness: 68, damping: 16, delay: i * 0.07
+            });
+        });
+        animateNumber(document.getElementById('ringCenterNum'), total);
+        [['legendCompleted', completed], ['legendPlaying', playing], ['legendBacklog', backlog]]
+            .forEach(([id, n]) => animateNumber(document.getElementById(id), n));
+    }
+
+    // ─── Platform select helper ────────────────────────────────────
+    function populatePlatformSelect(selectEl, platforms, currentValue = '') {
+        selectEl.innerHTML = '<option value="">Select platform…</option>';
+        const list = platforms && platforms.length > 0 ? platforms : [];
+        // Always include the current saved platform even if not in the list (legacy data)
+        if (currentValue && !list.includes(currentValue)) list.push(currentValue);
+        list.forEach(p => {
+            const opt = document.createElement('option');
+            opt.value = p;
+            opt.textContent = p;
+            if (p === currentValue) opt.selected = true;
+            selectEl.appendChild(opt);
         });
     }
 
@@ -1136,6 +1230,7 @@
         document.getElementById("modalTitle").textContent = game.name;
         document.getElementById("modalMeta").textContent =
             `${game.year}${game.genre ? ' · ' + game.genre.split(',')[0] : ''}`;
+        populatePlatformSelect(document.getElementById("modalPlatform"), game.platforms_available || []);
         const overlay = document.getElementById("modalOverlay");
         openOverlay(overlay, overlay.querySelector('.modal'));
     }
@@ -1206,6 +1301,7 @@
         animateNumber(document.getElementById("completedCount"), completed);
         animateNumber(document.getElementById("playingCount"),   playing);
         animateNumber(document.getElementById("backlogCount"),   backlog);
+        animateRingChart(completed, playing, backlog);
 
         // Big stat blocks
         if (total > 0) {
@@ -1414,9 +1510,13 @@
             descEl.classList.remove("loading");
         }
 
-        document.getElementById("detailStatus").value   = game.status;
-        document.getElementById("detailPlatform").value = game.platform || "";
-        document.getElementById("detailRating").value   = game.rating;
+        document.getElementById("detailStatus").value = game.status;
+        populatePlatformSelect(
+            document.getElementById("detailPlatform"),
+            game.platforms_available || [],
+            game.platform || ''
+        );
+        document.getElementById("detailRating").value = game.rating;
 
         if (game.platform) {
             document.getElementById("detailTags").innerHTML +=
